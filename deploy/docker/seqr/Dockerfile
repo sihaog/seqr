@@ -3,6 +3,7 @@ FROM python:3.7-slim-bullseye
 LABEL maintainer="Broad TGG"
 
 # install commmon utilities, database clients for debugging
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
     bzip2 \
@@ -41,7 +42,7 @@ RUN git clone -q --branch $SEQR_GIT_BRANCH $SEQR_REPO
 WORKDIR /seqr
 
 # install seqr dependencies
-RUN pip install wheel && pip install -r requirements.txt
+RUN pip install --no-cache-dir wheel && pip install --no-cache-dir -r requirements.txt
 
 ARG SEQR_SERVICE_PORT
 ENV SEQR_SERVICE_PORT=$SEQR_SERVICE_PORT
